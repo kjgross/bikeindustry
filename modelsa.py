@@ -4,12 +4,11 @@ class Manufacturer(object):
 	def __init__(self, name, mark_up_percent):
 		self.name = name
 		self.mark_up_percent = mark_up_percent
-	def mark_up_cost(self, mark_up_percent, model):
-		print "I'm doing a manu markup"
-		price = model.cost()
-		price *= mark_up_percent
-		print "It's gonna cost you %s" % (price)
-		return price
+	def manu_price(self, mark_up_percent, model):
+		pricemanu = model.cost()
+		pricemanu *= mark_up_percent
+		#print "It's gonna cost the shop %s" % (pricemanu)
+		return pricemanu
 
 
 # Bicycle Models
@@ -46,15 +45,19 @@ class Wheels(object):
 
 # Bike Shops
 class BikeShop(object):
-	def __init__(self, name, margin, inventory, profits):
+	def __init__(self, name, mark_up_percent, inventory, profits):
 		self.name = name
-		self.margin = margin
+		self.mark_up_percent = mark_up_percent
 		self.inventory = inventory
 		self.profits = profits
 
-	def profit(self):
-		"""Calculate the profit the shop makes on a sale"""
-		profits = margin*number_sold
+
+	def shop_price(self, manufacturer, mark_up_percent, model):
+		"""Calculate the price after adding in shop's markup"""
+		costshop = manufacturer.manu_price(manufacturer.mark_up_percent, model)
+		priceshop = mark_up_percent*costshop
+		#print "It's gonna cost you %s" % (priceshop)
+		return priceshop
 
 	def sell_bike(self, model, price, customer, inventory, bikeshop):
 		"""Sell a bike and remove it from bikeshop inventory"""
@@ -71,9 +74,10 @@ class BikeShop(object):
 # Customers
 class Customer(object):
 	"""Customers have a budget and go to the bike store to buy bikes"""
-	def __init__(self, name, budget):
+	def __init__(self, name, budget, bikes):
 		self.name = name
 		self.budget = budget
+		self.bikes = bikes
 
 
 
