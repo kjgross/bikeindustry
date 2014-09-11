@@ -31,7 +31,7 @@ def describe_inventory(inventory, bikeshop):
 	"""Print out the current inventory, including weight and cost"""
 	for i in inventory:
 		shop_price = bikeshop.shop_price(i.manufacturer, bikeshop.mark_up_percent, i)
-		print "Bob's bikes sells the %s which weighs %s pounds for %s dollars." % (i.name,i.weight(), shop_price)#*bobs_bikes.margin)
+		print "Bob's bikes sells the %s which weighs %s pounds for %.2f dollars." % (i.name,i.weight(), shop_price)#*bobs_bikes.margin)
 
 def customers_options(inventory, customer, bikeshop):
 	"""Print out a customer's options given their budget"""
@@ -40,8 +40,6 @@ def customers_options(inventory, customer, bikeshop):
 	for i in inventory:
 		if customer.budget >= bikeshop.shop_price(i.manufacturer, bikeshop.mark_up_percent, i):
 			customer_model_options.append(i)
-		else:
-			continue
 	print "Customer %s can buy the following bikes:" % (customer.name)
 	describe_inventory(customer_model_options, bikeshop)
 	
@@ -51,7 +49,7 @@ def purchase_bike(model, customer, inventory, bikeshop):
 	"""Purchase the bike for a given customer"""
 	shop_cost = model.manufacturer.manu_price(model.manufacturer.mark_up_percent, model)
 	shop_price = bikeshop.shop_price(model.manufacturer, bikeshop.mark_up_percent, model)
-	print "Alright, %s would like to buy %s for %s." % (customer.name, model.name, shop_price)
+	print "Alright, %s would like to buy %s for %.2f." % (customer.name, model.name, shop_price)
 	if model in inventory and shop_price <= customer.budget:
 		customer.budget -= shop_price
 		bikeshop.profits += shop_price - shop_cost
@@ -82,7 +80,7 @@ def choose():
 print ""
 print "Let's go Bike Shopping"
 print "We're walking into %s store now." % (bobs_bikes.name)
-print "Lot's of bikes are around, namely: "
+print "Lots of bikes are around, namely: "
 describe_inventory(inventory, bobs_bikes)
 print ""
 print "Alrighty then, Melanie is up first!" 
